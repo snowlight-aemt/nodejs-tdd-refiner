@@ -22,3 +22,13 @@ test.each`
     const actual = sut(source);
     expect(actual).toBe(expected);
 });
+
+
+test.each`
+    source | bennedWords | expected
+    ${"Hello mockist"} | ${["mockist", "purist"]} | ${"Hello *******"}
+    ${"Hello purist"} | ${["mockist", "purist"]} | ${"Hello ******"}
+`('sut transforms $source" to "$expected"', ({ source, bannedWords, expected}) => {
+    const actual = sut(source, { bannedWords });
+    expect(actual).toBe(expected);
+});

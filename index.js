@@ -4,7 +4,9 @@ function refineText(s) {
         .replace("\t", " ")
         .replace("  ", " ")
         .replace("  ", " ")
-        .replace("  ", " ");
+        .replace("  ", " ")
+        .replace("mockist", "*******")
+        .replace("purist", "******");
 }
 
 module.exports =refineText;
