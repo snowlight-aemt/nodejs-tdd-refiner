@@ -34,6 +34,24 @@ test.each`
     expect(actual).toBe(expected);
 });
 
+test.each`
+    source | expected
+    ${" Hello world "} | ${"Hello world"}
+    ${"  Hello world"} | ${"Hello world"}
+    ${"   Hello world"} | ${"Hello world"}
+    ${"    Hello world"} | ${"Hello world"}
+    ${"     Hello world"} | ${"Hello world"}
+    ${"      Hello world"} | ${"Hello world"}
+    ${"Hello world  "} | ${"Hello world"}
+    ${"Hello world   "} | ${"Hello world"}
+    ${"Hello world    "} | ${"Hello world"}
+    ${"Hello world     "} | ${"Hello world"}
+    ${"Hello world      "} | ${"Hello world"}
+`('sut correctly trims whitespaces', ({ source, expected }) => {
+    const actual = sut(source);
+    expect(actual).toBe(expected);
+});
+
 describe('give banned word', () => {
     const bannedWord = faker.lorem.word();
     const source = "Hello " + bannedWord;
