@@ -1,21 +1,28 @@
-function refineText(s, options) {
-    s = s
-        .replace("    ", " ")
-        .replace("\t", " ")
-        .replace("  ", " ")
-        .replace("  ", " ")
-        .replace("  ", " ")
-        .replace("mockist", "*******")
-        .replace("purist", "******");
+function refineText(source, options) {
+    source = normalizeWhiteSpaces(source);
+    source = compactWhitespaces(source);
+    source = maskBannedWords(source, options);
 
+    return source;
+}
+
+function normalizeWhiteSpaces(source) {
+    return source.replace("\t", " ");
+}
+
+function compactWhitespaces(source) {
+    return source.indexOf('  ') === -1 
+        ? source 
+        : compactWhitespaces(source.replace("  ", " "));
+}
+
+function maskBannedWords(source, options) {
     if (options) {
         for (const bennedWord of options.bannedWords) {
-            s = s.replace(bennedWord, "*".repeat(bennedWord.length));
+            source = source.replace(bennedWord, "*".repeat(bennedWord.length));
         }
     }
-
-
-    return s;
+    return source;
 }
 
 module.exports =refineText;
