@@ -1,9 +1,6 @@
 function refineText(source, options) {
-    source = normalizeWhiteSpaces(source);
-    source = compactWhitespaces(source);
-    source = maskBannedWords(source, options);
-
-    return source;
+    return [normalizeWhiteSpaces, compactWhitespaces, maskBannedWords]
+        .reduce((value, filter) => filter(value ,options), source);
 }
 
 function normalizeWhiteSpaces(source) {
@@ -17,12 +14,14 @@ function compactWhitespaces(source) {
 }
 
 function maskBannedWords(source, options) {
-    if (options) {
-        for (const bennedWord of options.bannedWords) {
-            source = source.replace(bennedWord, "*".repeat(bennedWord.length));
-        }
-    }
-    return source;
+    return options 
+        ? options.bannedWords.reduce(maskBannedWord, source) 
+        : source;
+}
+
+function maskBannedWord(source, bennedWord) {
+    const make = "*".repeat(bennedWord.length);
+    return source.replace(bennedWord, make);
 }
 
 module.exports =refineText;
